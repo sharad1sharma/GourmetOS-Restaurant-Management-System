@@ -10,7 +10,7 @@ ENV/
 env/
 
 # Database
-*.sqlite3
+# *.sqlite3
 
 # IDE / Editor files
 .vscode/
