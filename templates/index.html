@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GourmetOS — Restaurant Management System</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --card-bg: #131b2e;
+            --card-border: #1e293b;
+            --card-hover: #1e2942;
+            --primary: #6366f1;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --radius-sm: 6px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: rgba(19, 27, 46, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+        }
+
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .badge-pill {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--success);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot-live {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .link-btn {
+            background: #1e2942;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .link-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs-wrapper {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .nav-tabs {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 4px;
+            padding: 0 2rem;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 1rem 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* POS Layout */
+        .pos-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .pos-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Category Filter */
+        .categories-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        .cat-chip {
+            padding: 8px 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .cat-chip:hover, .cat-chip.active {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Menu Grid */
+        .menu-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .menu-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .menu-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .menu-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .stock-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .stock-tag.in-stock { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .stock-tag.out-stock { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+        }
+
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { opacity: 0.9; }
+
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { opacity: 0.9; }
+
+        .btn-warning { background: var(--warning); color: black; }
+        .btn-warning:hover { opacity: 0.9; }
+
+        .btn-secondary {
+            background: #1e2942;
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+        .btn-secondary:hover { background: #2b3957; }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Order Cart Sidebar */
+        .cart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .cart-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-dark);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .cart-items {
+            max-height: 280px;
+            overflow-y: auto;
+            margin-bottom: 1.25rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .cart-item-title { font-size: 0.9rem; font-weight: 600; }
+        .cart-item-price { font-size: 0.85rem; color: var(--text-muted); }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            background: var(--card-border);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-summary {
+            padding-top: 1rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: auto;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Order Board / Kanban */
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .order-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: var(--transition);
+        }
+
+        .order-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-id { font-weight: 700; font-size: 1.1rem; }
+        
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending { background: rgba(245, 158, 11, 0.2); color: var(--warning); border: 1px solid var(--warning); }
+        .status-confirmed { background: rgba(99, 102, 241, 0.2); color: var(--primary); border: 1px solid var(--primary); }
+        .status-preparing { background: rgba(139, 92, 246, 0.2); color: #a78bfa; border: 1px solid #a78bfa; }
+        .status-ready { background: rgba(6, 182, 212, 0.2); color: var(--info); border: 1px solid var(--info); }
+        .status-served { background: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid var(--success); }
+        .status-completed { background: rgba(148, 163, 184, 0.2); color: var(--text-muted); border: 1px solid var(--text-muted); }
+        .status-cancelled { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
+
+        .order-items-list {
+            background: var(--bg-dark);
+            border-radius: var(--radius-md);
+            padding: 10px 12px;
+            font-size: 0.85rem;
+        }
+
+        .order-action-bar {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        /* Tables Grid */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .table-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .table-num {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .table-capacity {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        /* Inventory Table */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #1e2942;
+            padding: 1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: var(--card-bg);
+            border: 1px solid var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="brand">
+                <div class="brand-icon"><i class="fa-solid font-awesome fa-utensils"></i></div>
+                <div>
+                    <div class="brand-title">GourmetOS</div>
+                    <div class="brand-subtitle">Restaurant Operations System</div>
+                </div>
+            </div>
+
+            <div class="header-meta">
+                <div class="badge-pill">
+                    <div class="dot-live"></div> API Connected
+                </div>
+                <div id="live-clock" style="font-size: 0.9rem; font-weight: 600; color: var(--text-muted);"></div>
+                <button onclick="openRegisterModal()" class="link-btn" style="background: #1e2942; border: 1px solid var(--primary); color: white; font-weight: 600; cursor: pointer;"><i class="fa-solid fa-user-plus"></i> Register</button>
+                <a href="/admin/login/" target="_blank" class="link-btn" style="background: var(--primary-gradient); color: white; border: none; font-weight: 600;"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                <a href="/admin/" target="_blank" class="link-btn"><i class="fa-solid fa-user-shield"></i> Admin Panel</a>
+                <a href="/api/" target="_blank" class="link-btn"><i class="fa-solid fa-code"></i> REST API</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs-wrapper">
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('pos')">
+                <i class="fa-solid fa-cash-register"></i> POS & Menu
+            </button>
+            <button class="nav-tab" onclick="switchTab('orders')">
+                <i class="fa-solid fa-fire"></i> Live Kitchen Orders <span class="tab-badge" id="orders-badge">0</span>
+            </button>
+            <button class="nav-tab" onclick="switchTab('tables')">
+                <i class="fa-solid fa-chair"></i> Tables & Reservations
+            </button>
+            <button class="nav-tab" onclick="switchTab('inventory')">
+                <i class="fa-solid fa-boxes-stacked"></i> Inventory Audit
+            </button>
+            <button class="nav-tab" onclick="switchTab('reports')">
+                <i class="fa-solid fa-chart-line"></i> Analytics & Reports
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <main>
+
+        <!-- TAB 1: POS & MENU -->
+        <div id="tab-pos" class="tab-content active">
+            <div class="pos-grid">
+                <div>
+                    <!-- Category Chips -->
+                    <div class="categories-bar" id="categories-container">
+                        <button class="cat-chip active" onclick="filterCategory(null)">All Items</button>
+                    </div>
+
+                    <!-- Menu Grid -->
+                    <div class="menu-items-grid" id="menu-container">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Order Cart -->
+                <div class="cart-card">
+                    <div class="cart-header">
+                        <span><i class="fa-solid fa-receipt"></i> Current Order</span>
+                        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="clearCart()">Clear</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-table-cells"></i> Select Table</label>
+                        <select class="form-control" id="cart-table-select">
+                            <!-- Loaded dynamically -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-bag-shopping"></i> Order Type</label>
+                        <select class="form-control" id="cart-type-select">
+                            <option value="dine_in">Dine In</option>
+                            <option value="takeaway">Takeaway</option>
+                            <option value="delivery">Delivery</option>
+                        </select>
+                    </div>
+
+                    <div class="cart-items" id="cart-items-container">
+                        <div style="text-align: center; color: var(--text-muted); padding: 2rem 0; font-size: 0.9rem;">
+                            No items added yet. Click menu items on the left.
+                        </div>
+                    </div>
+
+                    <div class="cart-summary">
+                        <div class="summary-row">
+                            <span>Total</span>
+                            <span id="cart-total">$0.00</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="submitOrder()" id="btn-submit-order">
+                            <i class="fa-solid fa-paper-plane"></i> Place Pending Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: LIVE KITCHEN ORDERS -->
+        <div id="tab-orders" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.4rem; font-weight: 700;">Live Kitchen & Order Dashboard</h2>
+                <button class="btn btn-secondary" onclick="loadOrders()"><i class="fa-solid fa-rotate"></i> Refresh Orders</button>
+            </div>
+
+            <div class="orders-grid" id="orders-container">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- TAB 3: TABLES & RESERVATIONS -->
+        <div id="tab-tables" class="tab-content">
+            <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.25rem;">Floor Plan & Tables</h2>
+            <div class="tables-grid" id="tables-container">
+                <!-- Loaded dynamically -->
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                <div class="cart-card">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem;"><i class="fa-solid fa-calendar-plus"></i> New Reservation</h3>
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <input type="text" class="form-control" id="res-name" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" class="form-control" id="res-phone" placeholder="+1 555-0192">
+                    </div>
+                    <div class="form-group">
+                        <label>Party Size</label>
+                        <input type="number" class="form-control" id="res-size" value="2" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Assign Table</label>
+                        <select class="form-control" id="res-table-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Reservation Time</label>
+                        <input type="datetime-local" class="form-control" id="res-time">
+                    </div>
+                    <button class="btn btn-primary" onclick="createReservation()"><i class="fa-solid fa-bookmark"></i> Book Reservation</button>
+                </div>
+
+                <div class="cart-card">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem;"><i class="fa-solid fa-list-check"></i> Upcoming Reservations</h3>
+                    <div id="reservations-list-container" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: INVENTORY AUDIT -->
+        <div id="tab-inventory" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.4rem; font-weight: 700;">Live Inventory Levels</h2>
+                <button class="btn btn-secondary" onclick="loadInventory()"><i class="fa-solid fa-rotate"></i> Refresh Stock</button>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity In Stock</th>
+                            <th>Reorder Level</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-table-body">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin: 2rem 0 1rem 0;"><i class="fa-solid fa-clock-rotate-left"></i> Recent Stock Audit Logs</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Item</th>
+                            <th>Type</th>
+                            <th>Quantity Delta</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody id="movements-table-body">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 5: REPORTS & ANALYTICS -->
+        <div id="tab-reports" class="tab-content">
+            <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem;">Business Intelligence & Reports</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="menu-card" style="background: linear-gradient(135deg, #1e293b 0%, #1e1b4b 100%);">
+                    <div style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">TODAY'S REVENUE</div>
+                    <div id="stat-sales-total" style="font-size: 2.2rem; font-weight: 700; color: var(--success); margin: 8px 0;">$0.00</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Completed Orders Only</div>
+                </div>
+
+                <div class="menu-card" style="background: linear-gradient(135deg, #1e293b 0%, #311042 100%);">
+                    <div style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">COMPLETED ORDERS</div>
+                    <div id="stat-orders-count" style="font-size: 2.2rem; font-weight: 700; color: #a78bfa; margin: 8px 0;">0</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Fulfilled Today</div>
+                </div>
+
+                <div class="menu-card" style="background: linear-gradient(135deg, #1e293b 0%, #451a03 100%);">
+                    <div style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">LOW STOCK ALERTS</div>
+                    <div id="stat-low-stock-count" style="font-size: 2.2rem; font-weight: 700; color: var(--warning); margin: 8px 0;">0</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Items Below Threshold</div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div class="cart-card">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem;"><i class="fa-solid fa-triangle-exclamation" style="color: var(--warning);"></i> Critical Stock Alerts</h3>
+                    <div id="alerts-report-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                </div>
+
+                <div class="cart-card">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem;"><i class="fa-solid fa-calendar-day"></i> Daily Sales Breakdown</h3>
+                    <div id="daily-sales-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Restock Modal -->
+    <div class="modal-backdrop" id="restock-modal">
+        <div class="modal-card">
+            <h3 class="modal-title"><i class="fa-solid fa-boxes-packing"></i> Restock Item</h3>
+            <p id="modal-item-name" style="color: var(--text-muted); margin-bottom: 1rem; font-weight: 500;"></p>
+            <div class="form-group">
+                <label>Add Quantity Amount</label>
+                <input type="number" class="form-control" id="restock-amount" value="50" min="1">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem;">
+                <button class="btn btn-secondary" onclick="closeRestockModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitRestock()">Confirm Restock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-backdrop" id="register-modal">
+        <div class="modal-card">
+            <h3 class="modal-title"><i class="fa-solid fa-user-plus"></i> Create New Account</h3>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" id="reg-username" placeholder="e.g. chef_john">
+            </div>
+            <div class="form-group">
+                <label>Email (Optional)</label>
+                <input type="email" class="form-control" id="reg-email" placeholder="john@restaurant.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="reg-password" placeholder="••••••••">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem;">
+                <button class="btn btn-secondary" onclick="closeRegisterModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitRegistration()">Create Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // App State
+        let categories = [];
+        let menuItems = [];
+        let tables = [];
+        let orders = [];
+        let inventory = [];
+        let cart = [];
+        let selectedCategory = null;
+        let activeRestockItemId = null;
+
+        // Clock Update
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Toast Helper
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            if (isError) toast.style.borderColor = 'var(--danger)';
+            toast.innerHTML = `<i class="fa-solid ${isError ? 'fa-circle-exclamation' : 'fa-circle-check'}" style="color: ${isError ? 'var(--danger)' : 'var(--success)'};"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // Tab Switcher
+        function switchTab(tabId, evt) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            const targetBtn = (evt && evt.currentTarget) ? evt.currentTarget : document.querySelector(`.nav-tab[onclick*="'${tabId}'"]`);
+            if (targetBtn) targetBtn.classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+
+            if (tabId === 'pos') loadPOS();
+            if (tabId === 'orders') loadOrders();
+            if (tabId === 'tables') loadTablesAndReservations();
+            if (tabId === 'inventory') loadInventory();
+            if (tabId === 'reports') loadReports();
+        }
+
+        // Registration Modal Handlers
+        function openRegisterModal() {
+            document.getElementById('register-modal').style.display = 'flex';
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('register-modal').style.display = 'none';
+        }
+
+        async function submitRegistration() {
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            if (!username || !password) {
+                showToast("Username and password are required!", true);
+                return;
+            }
+
+            try {
+                const res = await fetchAPI('/api/register/', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, email, password })
+                });
+                showToast(res.message);
+                closeRegisterModal();
+            } catch (e) {}
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const SERVER_CSRF_TOKEN = "{{ csrf_token }}";
+
+        // Fetch Helper
+        async function fetchAPI(url, options = {}) {
+            try {
+                const headers = {
+                    'Content-Type': 'application/json',
+                    ...(options.headers || {})
+                };
+
+                const csrfToken = getCookie('csrftoken') || SERVER_CSRF_TOKEN;
+                if (csrfToken) {
+                    headers['X-CSRFToken'] = csrfToken;
+                }
+
+                const res = await fetch(url, {
+                    ...options,
+                    headers: headers
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.detail || data.error || JSON.stringify(data));
+                }
+                return data;
+            } catch (err) {
+                showToast(err.message, true);
+                throw err;
+            }
+        }
+
+        // Initial Load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadPOS();
+            loadOrders();
+        });
+
+        // ==================== POS MODULE ====================
+        async function loadPOS() {
+            try {
+                const [catRes, menuRes, tableRes] = await Promise.all([
+                    fetchAPI('/api/categories/'),
+                    fetchAPI('/api/menu-items/'),
+                    fetchAPI('/api/tables/')
+                ]);
+
+                categories = catRes.results || catRes;
+                menuItems = menuRes.results || menuRes;
+                tables = tableRes.results || tableRes;
+
+                renderCategories();
+                renderMenuItems();
+                renderTableDropdown();
+            } catch (e) { console.error(e); }
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            container.innerHTML = `<button class="cat-chip ${selectedCategory === null ? 'active' : ''}" onclick="filterCategory(null)">All Items</button>`;
+            categories.forEach(cat => {
+                container.innerHTML += `<button class="cat-chip ${selectedCategory === cat.id ? 'active' : ''}" onclick="filterCategory(${cat.id})">${cat.name}</button>`;
+            });
+        }
+
+        function filterCategory(catId) {
+            selectedCategory = catId;
+            renderCategories();
+            renderMenuItems();
+        }
+
+        function renderMenuItems() {
+            const container = document.getElementById('menu-container');
+            const items = selectedCategory ? menuItems.filter(i => i.category === selectedCategory) : menuItems;
+
+            if (items.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">No menu items found.</div>`;
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="menu-card">
+                    <div>
+                        <div class="menu-card-header">
+                            <div class="menu-title">${item.name}</div>
+                            <div class="menu-price">$${parseFloat(item.price).toFixed(2)}</div>
+                        </div>
+                        <div class="menu-desc">${item.description || 'Delicious culinary creation'}</div>
+                        <span class="stock-tag ${item.is_in_stock ? 'in-stock' : 'out-stock'}">
+                            ${item.is_in_stock ? '<i class="fa-solid fa-check"></i> In Stock' : '<i class="fa-solid fa-xmark"></i> Out of Stock'}
+                        </span>
+                    </div>
+                    <button class="btn btn-primary" ${!item.is_in_stock ? 'disabled' : ''} onclick="addToCart(${item.id})">
+                        <i class="fa-solid fa-plus"></i> Add to Order
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderTableDropdown() {
+            const select = document.getElementById('cart-table-select');
+            select.innerHTML = tables.map(t => `<option value="${t.id}">Table ${t.table_number || t.number} (${t.capacity} seats - ${t.status})</option>`).join('');
+            
+            const resTableSelect = document.getElementById('res-table-select');
+            if (resTableSelect) resTableSelect.innerHTML = select.innerHTML;
+        }
+
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const existing = cart.find(c => c.menu_item === itemId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ menu_item: item.id, name: item.name, price: parseFloat(item.price), quantity: 1 });
+            }
+            renderCart();
+        }
+
+        function updateCartQty(itemId, delta) {
+            const index = cart.findIndex(c => c.menu_item === itemId);
+            if (index > -1) {
+                cart[index].quantity += delta;
+                if (cart[index].quantity <= 0) cart.splice(index, 1);
+            }
+            renderCart();
+        }
+
+        function clearCart() {
+            cart = [];
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            if (cart.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 2rem 0; font-size: 0.9rem;">No items added yet. Click menu items on the left.</div>`;
+                document.getElementById('cart-total').innerText = '$0.00';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity} = $${subtotal.toFixed(2)}</div>
+                        </div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="updateCartQty(${item.menu_item}, -1)">-</button>
+                            <span style="font-size: 0.9rem; font-weight: 600;">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateCartQty(${item.menu_item}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        async function submitOrder() {
+            if (cart.length === 0) {
+                showToast("Cart is empty!", true);
+                return;
+            }
+
+            const tableId = parseInt(document.getElementById('cart-table-select').value);
+            const orderType = document.getElementById('cart-type-select').value;
+
+            const payload = {
+                table: tableId,
+                order_type: orderType,
+                items_input: cart.map(c => ({ menu_item: c.menu_item, quantity: c.quantity }))
+            };
+
+            try {
+                const order = await fetchAPI('/api/orders/', { method: 'POST', body: JSON.stringify(payload) });
+                showToast(`Order #${order.id} placed in Pending status!`);
+                clearCart();
+                loadOrders();
+            } catch (e) {}
+        }
+
+        // ==================== ORDERS MODULE ====================
+        async function loadOrders() {
+            try {
+                const res = await fetchAPI('/api/orders/');
+                orders = res.results || res;
+
+                // Update badge
+                const activeCount = orders.filter(o => !['completed', 'cancelled'].includes(o.status)).length;
+                document.getElementById('orders-badge').innerText = activeCount;
+
+                renderOrders();
+            } catch (e) {}
+        }
+
+        function renderOrders() {
+            const container = document.getElementById('orders-container');
+            if (orders.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">No orders placed yet.</div>`;
+                return;
+            }
+
+            container.innerHTML = orders.map(o => {
+                const itemsSummary = o.items ? o.items.map(i => `${i.quantity}x ${i.menu_item_name}`).join(', ') : '';
+                return `
+                    <div class="order-card">
+                        <div class="order-card-header">
+                            <div class="order-id">Order #${o.id} <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal;">(Table ${o.table_number || o.table || 'N/A'})</span></div>
+                            <span class="status-badge status-${o.status}">${o.status}</span>
+                        </div>
+
+                        <div class="order-items-list">
+                            <div style="font-weight: 600; margin-bottom: 4px; color: var(--text-main);">${itemsSummary || 'Order Items'}</div>
+                            <div style="color: var(--success); font-weight: 700;">Total: $${parseFloat(o.total_amount || o.total_price || 0).toFixed(2)}</div>
+                        </div>
+
+                        <div class="order-action-bar">
+                            ${o.status === 'pending' ? `
+                                <button class="btn btn-primary" style="flex: 1; font-size: 0.8rem;" onclick="confirmOrder(${o.id})">
+                                    <i class="fa-solid fa-check"></i> Confirm & Deduct Stock
+                                </button>
+                            ` : ''}
+
+                            ${['confirmed', 'preparing', 'ready', 'served'].includes(o.status) ? `
+                                <button class="btn btn-warning" style="flex: 1; font-size: 0.8rem;" onclick="advanceOrder(${o.id})">
+                                    <i class="fa-solid fa-forward"></i> Next Status
+                                </button>
+                            ` : ''}
+
+                            ${!['completed', 'cancelled'].includes(o.status) ? `
+                                <button class="btn btn-danger" style="font-size: 0.8rem; padding: 8px 12px;" onclick="cancelOrder(${o.id})">
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function confirmOrder(orderId) {
+            try {
+                await fetchAPI(`/api/orders/${orderId}/confirm/`, { method: 'POST' });
+                showToast(`Order #${orderId} confirmed & inventory deducted!`);
+                loadOrders();
+                loadPOS(); // Refresh table status
+            } catch (e) {}
+        }
+
+        async function advanceOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const map = { 'confirmed': 'preparing', 'preparing': 'ready', 'ready': 'served', 'served': 'completed' };
+            const nextStatus = map[order.status];
+            if (!nextStatus) return;
+
+            try {
+                if (nextStatus === 'completed') {
+                    await fetchAPI(`/api/orders/${orderId}/complete/`, { method: 'POST' });
+                } else {
+                    await fetchAPI(`/api/orders/${orderId}/advance/`, { method: 'POST', body: JSON.stringify({ status: nextStatus }) });
+                }
+                showToast(`Order #${orderId} updated to ${nextStatus}!`);
+                loadOrders();
+            } catch (e) {}
+        }
+
+        async function cancelOrder(orderId) {
+            if (!confirm(`Are you sure you want to cancel Order #${orderId}? Stock will be refunded automatically if it was confirmed.`)) return;
+            try {
+                await fetchAPI(`/api/orders/${orderId}/cancel/`, { method: 'POST' });
+                showToast(`Order #${orderId} cancelled & restocked!`);
+                loadOrders();
+            } catch (e) {}
+        }
+
+        // ==================== TABLES & RESERVATIONS ====================
+        async function loadTablesAndReservations() {
+            try {
+                const [tRes, rRes] = await Promise.all([
+                    fetchAPI('/api/tables/'),
+                    fetchAPI('/api/reservations/')
+                ]);
+                tables = tRes.results || tRes;
+                const reservations = rRes.results || rRes;
+
+                renderTablesGrid();
+                renderReservationsList(reservations);
+            } catch (e) {}
+        }
+
+        function renderTablesGrid() {
+            const container = document.getElementById('tables-container');
+            container.innerHTML = tables.map(t => {
+                const colorMap = { 'available': 'var(--success)', 'occupied': 'var(--danger)', 'reserved': 'var(--warning)', 'cleaning': 'var(--info)' };
+                return `
+                    <div class="table-card">
+                        <div class="table-num">Table ${t.table_number || t.number}</div>
+                        <div class="table-capacity"><i class="fa-solid fa-users"></i> ${t.capacity} seats</div>
+                        <span class="status-badge" style="background: rgba(255,255,255,0.05); color: ${colorMap[t.status] || 'white'}; border: 1px solid ${colorMap[t.status] || 'white'};">
+                            ${t.status}
+                        </span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderReservationsList(reservations) {
+            const container = document.getElementById('reservations-list-container');
+            if (reservations.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 1.5rem;">No upcoming reservations.</div>`;
+                return;
+            }
+
+            container.innerHTML = reservations.map(r => `
+                <div style="background: var(--bg-dark); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-weight: 600;">${r.customer_name} (${r.party_size} guests)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Table ${r.table_number || r.table} • ${new Date(r.reservation_time).toLocaleString()}</div>
+                    </div>
+                    <div>
+                        ${r.status === 'confirmed' ? `
+                            <button class="btn btn-success" style="font-size: 0.75rem; padding: 4px 8px;" onclick="seatReservation(${r.id})">Seat</button>
+                            <button class="btn btn-danger" style="font-size: 0.75rem; padding: 4px 8px;" onclick="cancelReservation(${r.id})">Cancel</button>
+                        ` : `<span class="status-badge status-${r.status}">${r.status}</span>`}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function createReservation() {
+            const name = document.getElementById('res-name').value;
+            const phone = document.getElementById('res-phone').value;
+            const size = parseInt(document.getElementById('res-size').value);
+            const tableId = parseInt(document.getElementById('res-table-select').value);
+            const time = document.getElementById('res-time').value;
+
+            if (!name || !phone || !time) {
+                showToast("Please fill in all reservation fields!", true);
+                return;
+            }
+
+            const payload = {
+                customer_name: name,
+                customer_phone: phone,
+                party_size: size,
+                table: tableId,
+                reservation_time: new Date(time).toISOString()
+            };
+
+            try {
+                await fetchAPI('/api/reservations/', { method: 'POST', body: JSON.stringify(payload) });
+                showToast("Reservation booked successfully!");
+                loadTablesAndReservations();
+            } catch (e) {}
+        }
+
+        async function seatReservation(resId) {
+            try {
+                await fetchAPI(`/api/reservations/${resId}/seat/`, { method: 'POST' });
+                showToast("Party seated & table marked Occupied!");
+                loadTablesAndReservations();
+            } catch (e) {}
+        }
+
+        async function cancelReservation(resId) {
+            try {
+                await fetchAPI(`/api/reservations/${resId}/cancel/`, { method: 'POST' });
+                showToast("Reservation cancelled.");
+                loadTablesAndReservations();
+            } catch (e) {}
+        }
+
+        // ==================== INVENTORY MODULE ====================
+        async function loadInventory() {
+            try {
+                const [invRes, movRes] = await Promise.all([
+                    fetchAPI('/api/inventory/'),
+                    fetchAPI('/api/stock-movements/')
+                ]);
+                inventory = invRes.results || invRes;
+                const movements = movRes.results || movRes;
+
+                renderInventoryTable();
+                renderMovementsTable(movements);
+            } catch (e) {}
+        }
+
+        function renderInventoryTable() {
+            const body = document.getElementById('inventory-table-body');
+            body.innerHTML = inventory.map(item => {
+                const isLow = item.is_low_stock || parseFloat(item.quantity_in_stock) <= parseFloat(item.reorder_level);
+                const qty = parseFloat(item.quantity_in_stock || 0).toFixed(2);
+                const reorder = parseFloat(item.reorder_level || 0).toFixed(2);
+                return `
+                    <tr>
+                        <td style="font-weight: 600;">${item.name}</td>
+                        <td>Kitchen Item</td>
+                        <td style="font-weight: 700; color: ${isLow ? 'var(--danger)' : 'var(--text-main)'}">${qty} ${item.unit}</td>
+                        <td>${reorder} ${item.unit}</td>
+                        <td>
+                            <span class="stock-tag ${isLow ? 'out-stock' : 'in-stock'}">
+                                ${isLow ? 'LOW STOCK ALERT' : 'HEALTHY'}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 12px;" onclick="openRestockModal(${item.id}, '${item.name}')">
+                                <i class="fa-solid fa-plus"></i> Restock
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderMovementsTable(movements) {
+            const body = document.getElementById('movements-table-body');
+            body.innerHTML = movements.slice(0, 10).map(m => {
+                const changeVal = parseFloat(m.change || 0);
+                const isPositive = changeVal > 0;
+                return `
+                    <tr>
+                        <td style="font-size: 0.8rem; color: var(--text-muted);">${new Date(m.created_at).toLocaleString()}</td>
+                        <td style="font-weight: 600;">${m.item_name || 'Item'}</td>
+                        <td><span class="status-badge ${isPositive ? 'status-served' : 'status-cancelled'}">${m.reason || 'movement'}</span></td>
+                        <td style="font-weight: 700; color: ${isPositive ? 'var(--success)' : 'var(--danger)'};">
+                            ${isPositive ? '+' : ''}${changeVal.toFixed(2)}
+                        </td>
+                        <td style="font-size: 0.85rem; color: var(--text-muted);">${m.reference || '-'}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openRestockModal(itemId, itemName) {
+            activeRestockItemId = itemId;
+            document.getElementById('modal-item-name').innerText = `Restocking item: ${itemName}`;
+            document.getElementById('restock-modal').style.display = 'flex';
+        }
+
+        function closeRestockModal() {
+            document.getElementById('restock-modal').style.display = 'none';
+        }
+
+        async function submitRestock() {
+            const amount = parseFloat(document.getElementById('restock-amount').value);
+            if (!amount || amount <= 0) return;
+
+            try {
+                await fetchAPI(`/api/inventory/${activeRestockItemId}/restock/`, { method: 'POST', body: JSON.stringify({ amount }) });
+                showToast("Item restocked successfully!");
+                closeRestockModal();
+                loadInventory();
+            } catch (e) {}
+        }
+
+        // ==================== REPORTS MODULE ====================
+        async function loadReports() {
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const [sales, alertsRes] = await Promise.all([
+                    fetchAPI(`/api/reports/daily-sales/?date=${today}`),
+                    fetchAPI('/api/reports/stock-alerts/')
+                ]);
+
+                const alertItems = alertsRes.low_stock_items || (Array.isArray(alertsRes) ? alertsRes : []);
+                const alertsCount = alertsRes.count !== undefined ? alertsRes.count : alertItems.length;
+
+                document.getElementById('stat-sales-total').innerText = `$${parseFloat(sales.total_revenue || 0).toFixed(2)}`;
+                document.getElementById('stat-orders-count').innerText = sales.total_orders || 0;
+                document.getElementById('stat-low-stock-count').innerText = alertsCount;
+
+                // Render Stock Alerts
+                const alertsContainer = document.getElementById('alerts-report-container');
+                if (!alertItems || alertItems.length === 0) {
+                    alertsContainer.innerHTML = `<div style="color: var(--success); font-weight: 500;"><i class="fa-solid fa-check"></i> All inventory items are well stocked!</div>`;
+                } else {
+                    alertsContainer.innerHTML = alertItems.map(a => `
+                        <div style="background: rgba(239,68,68,0.1); border: 1px solid var(--danger); padding: 10px 14px; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; color: var(--danger);">${a.name}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">Current: ${a.quantity_in_stock} ${a.unit} (Min: ${a.reorder_level})</div>
+                            </div>
+                            <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px;" onclick="openRestockModal(${a.id}, '${a.name}')">Restock</button>
+                        </div>
+                    `).join('');
+                }
+
+                // Render Sales Breakdown
+                const salesContainer = document.getElementById('daily-sales-container');
+                salesContainer.innerHTML = `
+                    <div style="background: var(--bg-dark); padding: 14px; border-radius: var(--radius-md); font-size: 0.9rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: var(--text-muted);">Report Date:</span>
+                            <span style="font-weight: 600;">${sales.date || today}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: var(--text-muted);">Total Revenue:</span>
+                            <span style="font-weight: 700; color: var(--success);">$${parseFloat(sales.total_revenue || 0).toFixed(2)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Total Fulfilled Orders:</span>
+                            <span style="font-weight: 600;">${sales.total_orders || 0}</span>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {}
+        }
+    </script>
+</body>
+</html>
