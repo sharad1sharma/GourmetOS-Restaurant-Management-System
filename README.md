@@ -95,3 +95,7 @@ run against this codebase during development (seed data, confirm order,
 verify deductions, cancel, verify restock, reject an under-stocked order).
 Add these as proper `pytest`/`TestCase` cases under each app's `tests.py`
 for CI.
+
+
+
+<img width="1516" height="817" alt="Screenshot 2026-09-19 113315" src="https://github.com/user-attachments/assets/0d52a039-3962-4262-8211-80119984c5cc" />
