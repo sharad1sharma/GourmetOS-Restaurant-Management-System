@@ -1,3 +1,6 @@
+<img width="1533" height="807" alt="Screenshot 2026-09-19 122009" src="https://github.com/user-attachments/assets/2b544b37-abaa-4445-a399-4a60b569e189" />
+
+
 # Restaurant Management System — Backend
 
 A Django + Django REST Framework backend for restaurant operations: menu, orders,
