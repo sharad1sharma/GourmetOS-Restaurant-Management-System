@@ -89,7 +89,9 @@
             font-size: 1.4rem;
             font-weight: 700;
             background: linear-gradient(to right, #fff, #cbd5e1);
+            background-clip: text;
             -webkit-background-clip: text;
+            color: transparent;
             -webkit-text-fill-color: transparent;
         }
 
@@ -654,6 +656,157 @@
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+
+        /* Footer Styling */
+        .app-footer {
+            background: linear-gradient(180deg, rgba(19, 27, 46, 0.6) 0%, rgba(9, 13, 22, 0.98) 100%);
+            border-top: 1px solid var(--card-border);
+            margin-top: auto;
+            padding: 2.25rem 2rem 1.75rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-brand-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--primary-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+        }
+
+        .footer-brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-brand-name {
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: -0.01em;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-brand-tagline {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-badges {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .footer-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 14px;
+            background: rgba(30, 41, 59, 0.55);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+            transition: var(--transition);
+        }
+
+        .footer-pill:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            color: var(--text-main);
+        }
+
+        .footer-status-dot {
+            color: var(--success);
+            font-size: 0.45rem;
+            animation: pulse-dot 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--card-border) 15%, var(--card-border) 85%, transparent 100%);
+            width: 100%;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .footer-legal {
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 650px;
+        }
+
+        .footer-copyright {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .footer-copyright .creator-name {
+            color: #fff;
+            font-weight: 600;
+            background: linear-gradient(135deg, #a5b4fc 0%, #c084fc 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .app-footer {
+                padding: 1.5rem 1rem;
+            }
+            .footer-top, .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -899,6 +1052,43 @@
         </div>
 
     </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-brand-icon">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <div class="footer-brand-info">
+                        <span class="footer-brand-name">GourmetOS</span>
+                        <span class="footer-brand-tagline">Fine Dining & POS Management Platform</span>
+                    </div>
+                </div>
+
+                <div class="footer-badges">
+                    <span class="footer-pill">
+                        <i class="fa-solid fa-circle footer-status-dot"></i> Systems Operational
+                    </span>
+                    <span class="footer-pill">
+                        <i class="fa-solid fa-shield-halved"></i> Enterprise POS
+                    </span>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-bottom">
+                <p class="footer-legal">
+                    All Rights Reserved. All other trademarks and copyrights are the property of their respective holders.
+                </p>
+                <div class="footer-copyright">
+                    Copyright &copy; 2026 <span class="creator-name">Sharad Sharma</span>.
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Restock Modal -->
     <div class="modal-backdrop" id="restock-modal">

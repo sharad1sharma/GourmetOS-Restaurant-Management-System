@@ -14,9 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# pyrefly: ignore [missing-import]
 from django.contrib import admin
+# pyrefly: ignore [missing-import]
 from django.urls import path, include
+# pyrefly: ignore [missing-import]
 from django.views.generic import RedirectView
+# pyrefly: ignore [missing-import]
 from rest_framework.routers import DefaultRouter
 
 from menu.views import CategoryViewSet, MenuItemViewSet, RecipeItemViewSet

@@ -99,6 +99,15 @@ verify deductions, cancel, verify restock, reject an under-stocked order).
 Add these as proper `pytest`/`TestCase` cases under each app's `tests.py`
 for CI.
 
+## Vercel Deployment
 
+This project is fully configured for deployment on [Vercel](https://vercel.com):
+1. **GitHub Integration**: Connect and import the `GourmetOS-` repository directly on the Vercel dashboard.
+2. **Serverless WSGI**: Handled automatically via `vercel.json` using `@vercel/python` pointing to `core/wsgi.py`.
+3. **Database in Serverless**: Uses SQLite copied to the writable temporary directory on cold boot, with support for PostgreSQL / Neon if a `DATABASE_URL` environment variable is supplied.
+4. **Environment Variables** (Optional on Vercel):
+   - `SECRET_KEY`: Set a secure secret key.
+   - `DEBUG`: Set to `False` for production.
+   - `DATABASE_URL`: (Optional) PostgreSQL connection URI (e.g. Neon, Supabase).
 
 <img width="1516" height="817" alt="Screenshot 2026-09-19 113315" src="https://github.com/user-attachments/assets/0d52a039-3962-4262-8211-80119984c5cc" />
